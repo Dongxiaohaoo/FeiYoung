@@ -1,6 +1,5 @@
 #!
-import json
-import sys, requests, configparser, time
+import sys, requests, configparser, time, json
 import traceback
 from xml.etree import ElementTree
 from urllib import parse
@@ -18,7 +17,7 @@ def load_config():
     do_login(phone, login_pwd)
 
 
-def do_login(phone: str, pwd: str) -> str:
+def do_login(phone: str, pwd: str) -> None:
     '''
     认证主方法
     :param phone: 手机号
@@ -26,16 +25,15 @@ def do_login(phone: str, pwd: str) -> str:
     :return:
     '''
     url = 'http://www.baidu.com/'
+    print('-----------------------------------')
     try:
         redirect_url = requests.get(url, timeout=10).url
     except:
-        print('-----------------------------------')
-        print('重定向失败。')
-        input('请检查本机DNS是否设置为自动,并确认网络是否正常。')
-        sys.exit(0)
+        input('重定向失败,请检查本机DNS是否设置为自动,并确认网络是否正常。')
+        return
     if len(url) == len(redirect_url):
-        print('-----------------------------------')
-        print('当前设备已经链接互联网')
+        input('当前设备已经链接互联网')
+        return
 
     redirect_url_parse = parse.parse_qs(parse.urlparse(redirect_url).query)
 
@@ -100,4 +98,3 @@ if __name__ == '__main__':
     except Exception as e:
         traceback.print_exc()
         input("出现如下异常:%s" % e)
-
