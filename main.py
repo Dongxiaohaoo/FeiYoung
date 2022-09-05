@@ -1,8 +1,14 @@
 #!
-import sys, requests, configparser, time, json
+import sys, requests, configparser, time, json, os
 import traceback
 from xml.etree import ElementTree
 from urllib import parse
+
+
+def is_config():
+    if not os.path.isfile("config.ini"):
+        input("配置文件丢失")
+        return
 
 
 def load_config():
@@ -96,7 +102,10 @@ def do_login(phone: str, pwd: str) -> None:
 
 
 if __name__ == '__main__':
+    #检查配置文件是否存在
+    is_config()
     try:
+        #登陆
         load_config()
     except Exception as e:
         traceback.print_exc()
