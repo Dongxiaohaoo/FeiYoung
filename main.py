@@ -12,7 +12,10 @@ def load_config():
     phone = config['config']['phone']
     pwd = config['config']['pwd']
     json_pwd = json.loads(pwd)
-    login_pwd = json_pwd['day' + str(today)]
+    login_pwd = json_pwd['day' + today]
+    if login_pwd == "":
+        input(str(today) + "号的登陆密码尚未配置")
+        return
     # 执行登陆操作
     do_login(phone, login_pwd)
 
